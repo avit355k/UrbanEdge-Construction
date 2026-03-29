@@ -35,6 +35,7 @@ class TempImageController extends Controller
                 $model->save();
 
                 $image->move(public_path('uploads/temp'), $imageName);
+
                 //create small thumbnail
                 $sourcePath = public_path('uploads/temp/'.$imageName);
                 $destPath = public_path('uploads/temp/thumb/'.$imageName);
@@ -42,8 +43,6 @@ class TempImageController extends Controller
                 $image = $manager->decode($sourcePath);
                 $image->coverDown(600, 360);
                 $image->save($destPath);
-
-
 
                   return response()->json([
                  'status'=>true,

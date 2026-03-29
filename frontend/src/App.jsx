@@ -14,6 +14,8 @@ import Contact from './Pages/Contact/Contact.jsx';
 import Login from './Component/Admin/Login.jsx';
 import Dashboard from './Component/Admin/Dashboard.jsx';
 import RequireAuth from './Component/RequireAuth/RequireAuth.jsx';
+import ShowService from './Component/Admin/Services/ShowService.jsx';
+import AdminLayout from './Component/Admin/AdminLayout.jsx';
 
 
 function App() {
@@ -33,11 +35,16 @@ function App() {
           <Route path="/contacts" exact={true} element={<Contact />} />
           <Route path="/admin/login" exact={true} element={<Login />} />
 
-          <Route path="/admin/dashboard" exact={true} element={
+
+
+          <Route path="/admin" exact={true} element={
             <RequireAuth >
-              <Dashboard />
+              <AdminLayout />
             </RequireAuth>
-          } />
+          }>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="services" element={<ShowService />} />
+          </Route>
         </Routes>
 
         <Footer />
