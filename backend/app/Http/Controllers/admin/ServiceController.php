@@ -47,7 +47,7 @@ class ServiceController extends Controller
 
       $model = new Service();
         $model->title = $request->input('title');
-        $model->slug = $request->Str::slug($request->input('slug'));
+        $model->slug = Str::slug($request->input('slug'));
         $model->short_desc = $request->input('short_desc');
         $model->content = $request->input('content');
         $model->status = $request->input('status');
@@ -146,7 +146,7 @@ class ServiceController extends Controller
 
     
         $service->title = $request->input('title');
-        $service->slug = $request->Str::slug($request->input('slug'));
+        $service->slug = Str::slug($request->input('slug'));
         $service->short_desc = $request->input('short_desc');
         $service->content = $request->input('content');
         $service->status = $request->input('status');
