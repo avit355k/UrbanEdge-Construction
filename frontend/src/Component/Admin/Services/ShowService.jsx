@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { API, token } from "../../../Api/Api";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ShowService = () => {
 
   const [services, setServices] = useState([]);
+  const navigate = useNavigate();
 
   //  Fetch services from API
   const fetchServices = async () => {
@@ -34,7 +36,8 @@ const ShowService = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Services</h2>
-        <button className="bg-pink-500 hover:bg-yellow-400 text-white font-bold px-4 py-2 rounded cursor-pointer">
+        <button className="bg-pink-500 hover:bg-yellow-400 text-white font-bold px-4 py-2 rounded cursor-pointer"
+          onClick={() => navigate("/admin/services/create")}>
           CREATE
         </button>
       </div>

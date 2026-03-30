@@ -16,6 +16,7 @@ import Dashboard from './Component/Admin/Dashboard.jsx';
 import RequireAuth from './Component/RequireAuth/RequireAuth.jsx';
 import ShowService from './Component/Admin/Services/ShowService.jsx';
 import AdminLayout from './Component/Admin/AdminLayout.jsx';
+import CreateService from './Component/Admin/Services/CreateService.jsx';
 
 
 function App() {
@@ -35,8 +36,6 @@ function App() {
           <Route path="/contacts" exact={true} element={<Contact />} />
           <Route path="/admin/login" exact={true} element={<Login />} />
 
-
-
           <Route path="/admin" exact={true} element={
             <RequireAuth >
               <AdminLayout />
@@ -44,7 +43,9 @@ function App() {
           }>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="services" element={<ShowService />} />
+            <Route path="services/create" element={<CreateService />} />
           </Route>
+          
         </Routes>
 
         <Footer />
