@@ -12,8 +12,8 @@ const AdminLayout = () => {
         <Sidebar />
 
         {/* Dynamic Content */}
-        <div className="flex-1 p-4">
-          <div className="bg-white h-full rounded-lg shadow-sm">
+        <div className="flex-1 p-4 overflow-hidden">
+          <div className="bg-white h-full rounded-lg shadow-sm overflow-y-auto">
             <Outlet />
           </div>
         </div>

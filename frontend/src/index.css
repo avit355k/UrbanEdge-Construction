@@ -2,3 +2,12 @@
 @plugin "daisyui";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* index.css */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ec4899;
+  border-radius: 10px;
+}

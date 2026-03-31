@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { API, token } from "../../../Api/Api";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ShowService = () => {
 
@@ -21,6 +22,7 @@ const ShowService = () => {
 
     } catch (error) {
       console.error("Error fetching services:", error);
+      toast.error("Error fetching services");
     }
   };
 
@@ -28,6 +30,24 @@ const ShowService = () => {
   useEffect(() => {
     fetchServices();
   }, []);
+
+  // Delete Service
+  const deleteService = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this service?")) return;
+
+    try {
+      await axios.delete(`${API}/services/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token()}`,
+        },
+      });
+      toast.success("Service deleted successfully!");
+      fetchServices();
+    } catch (error) {
+      console.error("Error deleting service:", error);
+      toast.error("Error deleting service");
+    }
+  };
 
 
   return (
@@ -82,11 +102,13 @@ const ShowService = () => {
                   </td>
                   <td className="p-3 space-x-2">
 
-                    <button className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-3 py-1 rounded cursor-pointer">
+                    <button onClick={() => navigate(`/admin/services/edit/${service.id}`)}
+                      className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-3 py-1 rounded cursor-pointer">
                       EDIT
                     </button>
 
-                    <button className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-3 py-1 rounded cursor-pointer">
+                    <button onClick={() => deleteService(service.id)}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-3 py-1 rounded cursor-pointer">
                       DELETE
                     </button>
 

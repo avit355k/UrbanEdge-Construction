@@ -1,15 +1,16 @@
-import React, { useState, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { API, token } from "../../../Api/Api";
+import { API, token, imageURL } from "../../../Api/Api";
 
-
-const CreateService = () => {
+const EditService = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
     const editor = useRef(null);
 
+    const [oldImage, setOldImage] = useState(null);
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -28,6 +29,39 @@ const CreateService = () => {
             .replace(/\s+/g, "-")
             .replace(/-+/g, "-");
     };
+
+    //fetch service data
+    const fetchService = async () => {
+        try {
+            const res = await axios.get(`${API}/services/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token()}`,
+                },
+            });
+
+            const service = res.data.data || res.data;
+
+            setFormData({
+                title: service.title || "",
+                slug: service.slug || "",
+                short_description: service.short_description || "",
+                content: service.content || "",
+                image: null,
+                status: service.status || "1",
+            });
+
+            setOldImage(service.image);
+
+        } catch (error) {
+            console.error("Error fetching service:", error);
+            toast.error("Error fetching service");
+        }
+    };
+
+    // Call on component mount
+    useEffect(() => {
+        fetchService();
+    }, [id]);
 
     // Handle input change
     const handleChange = (e) => {
@@ -51,29 +85,26 @@ const CreateService = () => {
             setFormData({ ...formData, [name]: value });
         }
     };
-
-    // Handle submit
+    //update service
     const handleSubmit = async (e) => {
         e.preventDefault();
-  
+
         const data = new FormData();
+
         Object.keys(formData).forEach((key) => {
-            data.append(key, formData[key]);
+            if (formData[key] !== null) {
+                data.append(key, formData[key]);
+            }
         });
 
-        try {     
-            const res = await axios.post(`${API}/services`, data, {
+        try {
+            await axios.post(`${API}/services/${id}?_method=PUT`, data, {
                 headers: {
                     Authorization: `Bearer ${token()}`,
                 },
             });
-
-            console.log(res);
-
-            toast.success("Service Created Successfully!");
-
+            toast.success("Service Updated Successfully!");
             navigate("/admin/services");
-
         } catch (error) {
             console.error(error);
             if (error.response?.data?.errors) {
@@ -84,17 +115,17 @@ const CreateService = () => {
                 toast.error("Something went wrong!");
             }
         }
-    };
+
+    }
 
     return (
-        <div className="p-6">
-
+        <div className='p-6'>
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
                 <div className="breadcrumbs text-sm font-bold">
                     <ul>
                         <li><Link to="/admin/services">Services</Link></li>
-                        <li>Create</li>
+                        <li>Edit</li>
                     </ul>
                 </div>
                 <button className="bg-pink-500 hover:bg-yellow-400 text-white font-bold px-4 py-2 rounded cursor-pointer"
@@ -106,10 +137,8 @@ const CreateService = () => {
             {/* Divider */}
             <hr className="border-gray-300 mb-4" />
 
-
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
-
                 {/* Title */}
                 <div>
                     <label className="block mb-1 font-medium text-gray-700">
@@ -145,17 +174,17 @@ const CreateService = () => {
                     <label className="block mb-1 font-medium text-gray-700">
                         Short Description
                     </label>
-                    <textarea
+                    <input
+                        type="text"
                         name="short_description"
                         placeholder="Short Description"
                         value={formData.short_description}
                         onChange={handleChange}
-                        rows="4"
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none"
                     />
                 </div>
 
-                {/* Content Editor */}
+                {/* Content */}
                 <div>
                     <label className="block mb-2 font-medium text-gray-700">
                         Content
@@ -164,8 +193,8 @@ const CreateService = () => {
                         <JoditEditor
                             ref={editor}
                             value={formData.content}
-                            onChange={(newContent) =>
-                                setFormData({ ...formData, content: newContent })
+                            onChange={(content) =>
+                                setFormData({ ...formData, content })
                             }
                             config={{
                                 readonly: false,
@@ -176,23 +205,16 @@ const CreateService = () => {
                     </div>
                 </div>
 
-                {/* Image */}
+                {/*image */}
                 <div>
                     <label className="block mb-1 font-medium text-gray-700">
                         Image
                     </label>
 
                     <div className="flex items-center gap-3">
-                        {/* Hidden Input */}
-                        <input
-                            type="file"
-                            name="image"
-                            id="imageUpload"
-                            onChange={handleChange}
-                            className="hidden"
-                        />
+                        <input type="file" name="image" id="imageUpload" onChange={handleChange} aria-label="Upload service image"
+                            className="hidden" />
 
-                        {/* Custom Button */}
                         <label
                             htmlFor="imageUpload"
                             className="cursor-pointer bg-gray-200 border px-3 py-1 rounded-md hover:bg-gray-300 text-sm"
@@ -205,15 +227,26 @@ const CreateService = () => {
                             {formData.image ? formData.image.name : "No file chosen"}
                         </span>
                     </div>
+
+                    {/* OLD IMAGE */}
+                    {oldImage && !formData.image && (
+                        <img
+                            src={`${imageURL}${oldImage}`}
+                            alt="old"
+                            className="h-24 mt-2 rounded-md"
+                        />
+                    )}
+
+                    {/* NEW IMAGE PREVIEW */}
                     {formData.image && (
                         <img
                             src={URL.createObjectURL(formData.image)}
-                            alt="preview"
-                            className="mt-2 h-20 rounded"
+                            alt="new"
+                            className="h-24 mt-2 rounded-md"
                         />
                     )}
-                </div>
 
+                </div>
                 {/* Status */}
                 <div>
                     <label className="block mb-1 font-medium text-gray-700">
@@ -230,19 +263,17 @@ const CreateService = () => {
                     </select>
                 </div>
 
-                {/* Submit */}
                 <div>
                     <button
                         type="submit"
                         className="bg-pink-500 hover:bg-yellow-400 transition text-white px-5 py-2 rounded-md font-semibold cursor-pointer"
                     >
-                        Create Service
+                        Update Service
                     </button>
                 </div>
             </form>
-
         </div>
-    );
-};
+    )
+}
 
-export default CreateService;
+export default EditService;

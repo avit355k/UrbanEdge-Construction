@@ -17,6 +17,7 @@ import RequireAuth from './Component/RequireAuth/RequireAuth.jsx';
 import ShowService from './Component/Admin/Services/ShowService.jsx';
 import AdminLayout from './Component/Admin/AdminLayout.jsx';
 import CreateService from './Component/Admin/Services/CreateService.jsx';
+import EditService from './Component/Admin/Services/EditService.jsx';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="services" element={<ShowService />} />
             <Route path="services/create" element={<CreateService />} />
+            <Route path='services/edit/:id' element={<EditService />} />
           </Route>
           
         </Routes>
