@@ -1,24 +1,48 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { API ,imageURL} from '../../Api/Api';
+import { useNavigate } from 'react-router-dom';
 
-const services = [
-  {
-    title: 'Building Construction',
-    description: 'Building construction is a broad and essential sector within the construction industry that focuses on the creation of structures designed for human occupancy and use.',
-    img: "/images/construction4.jpg"
-  },
-  {
-    title: 'Residential Construction',
-    description: 'Residential construction is a fundamental sector within the construction industry, dedicated to creating living spaces that meet the diverse needs of individuals and families.',
-    img: "/images/construction7.jpg"
-  },
-  {
-    title: 'Corporate Construction',
-    description: 'Corporate construction is a specialized sector within the construction industry that focuses on developing and constructing buildings and facilities designed for business operations.',
-    img: "/images/engineer-4925135_1280.jpg"
-  }
-];
+// const services = [
+//   {
+//     title: 'Building Construction',
+//     description: 'Building construction is a broad and essential sector within the construction industry that focuses on the creation of structures designed for human occupancy and use.',
+//     img: "/images/construction4.jpg"
+//   },
+//   {
+//     title: 'Residential Construction',
+//     description: 'Residential construction is a fundamental sector within the construction industry, dedicated to creating living spaces that meet the diverse needs of individuals and families.',
+//     img: "/images/construction7.jpg"
+//   },
+//   {
+//     title: 'Corporate Construction',
+//     description: 'Corporate construction is a specialized sector within the construction industry that focuses on developing and constructing buildings and facilities designed for business operations.',
+//     img: "/images/engineer-4925135_1280.jpg"
+//   }
+// ];
 
 const Services = () => {
+  const [services, setServices] = useState([]);
+  const navigate = useNavigate();
+
+  //fetch latest services 
+  const fetchLatestServices = async () => {
+    try {
+      const res = await axios.get(`${API}/getlatestservice`); 
+
+        if (res.data && res.data.data) {
+        setServices(res.data.data); 
+      }
+
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestServices();
+  }, []);
+
   return (
     <section className='bg-gray-100 py-10 px-8'>
       <h2 className='text-xl text-pink-500 font-bold tracking-wide text-center mb-2'>Our Services</h2>
@@ -35,11 +59,11 @@ const Services = () => {
         {services.map((service, index) => (
           <div key={index} className='relative h-80 rounded-3xl overflow-hidden group cursor-pointer'>
             <img
-              src={service.img}
+              src={`${imageURL}${service.image}`}
               alt={service.title}
               className="w-full h-full object-cover"
             />
-           
+
 
             <div
               className="absolute bottom-0 left-0 w-full p-6 text-white
@@ -53,13 +77,14 @@ const Services = () => {
               </h3>
 
               {/* Hidden Content (shows on hover) */}
-              {service.description && (
+              {service.short_description && (
                 <div className="mt-4 opacity-0 group-hover:opacity-100 transition duration-500">
                   <p className="text-normal text-gray-200">
-                    {service.description}
+                    {service.short_description}
                   </p>
 
-                  <button className="mt-4 bg-pink-500 px-4 py-2 rounded-md text-sm font-semibold hover:bg-yellow-400 cursor-pointer">
+                  <button  onClick={() => navigate(`/service/${service.id}`)}
+                   className="mt-4 bg-pink-500 px-4 py-2 rounded-md text-sm font-semibold hover:bg-yellow-400 cursor-pointer">
                     READ MORE
                   </button>
                 </div>

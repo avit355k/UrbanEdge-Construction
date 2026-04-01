@@ -18,6 +18,7 @@ import ShowService from './Component/Admin/Services/ShowService.jsx';
 import AdminLayout from './Component/Admin/AdminLayout.jsx';
 import CreateService from './Component/Admin/Services/CreateService.jsx';
 import EditService from './Component/Admin/Services/EditService.jsx';
+import ServiceDetails from './Pages/ServicePage/ServiceDetails.jsx';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path='/' exact={true} element={<Home />} />
           <Route path="/about" exact={true} element={<About />} />
           <Route path="/services" exact={true} element={<ServicePage />} />
+          <Route path="/service/:id" exact={true} element={<ServiceDetails />} />
           <Route path="/projects" exact={true} element={<ProjectPage />} />
           <Route path="/blogs" exact={true} element={<BlogPage />} />
           <Route path="/contacts" exact={true} element={<Contact />} />

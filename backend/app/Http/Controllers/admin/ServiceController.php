@@ -33,7 +33,7 @@ class ServiceController extends Controller
       $validator = Validator::make($request->all(), [
         'title' => 'required',
         'slug' => 'required|unique:services,slug',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:5120',
          ]);
 
         if ($validator->fails()) {
@@ -52,7 +52,7 @@ class ServiceController extends Controller
 
         $model->save();
 
-      // Image Upload
+          // Image Upload 
          if ($request->hasFile('image') && $request->file('image')->isValid()) {
 
             $image = $request->file('image');
@@ -130,7 +130,7 @@ class ServiceController extends Controller
         $validator = Validator::make($request->all(), [
         'title' => 'required',
         'slug' => 'required|unique:services,slug,' . $id,
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:5120',
         ]);
 
         if ($validator->fails()) {
