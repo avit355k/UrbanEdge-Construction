@@ -107,6 +107,7 @@ const EditService = () => {
             navigate("/admin/services");
         } catch (error) {
             console.error(error);
+            console.log(error.response);
             if (error.response?.data?.errors) {
                 Object.values(error.response.data.errors).forEach((errArr) => {
                     errArr.forEach((msg) => toast.error(msg));

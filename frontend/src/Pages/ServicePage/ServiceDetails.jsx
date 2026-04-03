@@ -32,10 +32,10 @@ const ServiceDetails = () => {
             <h1 className="text-3xl font-bold mt-6">{service.title}</h1>
 
             <p className="mt-4 text-gray-700">{service.short_description}</p>
-           <div
-  className="mt-6 text-gray-700 leading-relaxed"
-  dangerouslySetInnerHTML={{ __html: service.content }}
-/>
+            <div
+                className="mt-6 text-gray-700 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: service.content }}
+            />
         </div>
     );
 };

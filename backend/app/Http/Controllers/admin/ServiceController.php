@@ -47,10 +47,10 @@ class ServiceController extends Controller
          $model->title = $request->input('title');
          $model->slug = Str::slug($request->input('slug'));
          $model->short_description = $request->input('short_description');
-        $model->content = $request->input('content');
-        $model->status = $request->input('status');
+         $model->content = $request->input('content');
+         $model->status = $request->input('status');
 
-        $model->save();
+         $model->save();
 
           // Image Upload 
          if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -137,21 +137,21 @@ class ServiceController extends Controller
         return response()->json([
             'status' => 400,
             'errors' => $validator->messages(),
-        ]);
+         ]);
          }
 
-        $service->title = $request->input('title');
-        $service->slug = Str::slug($request->input('slug'));
-        $service->short_description = $request->input('short_description');
-        $service->content = $request->input('content');
-        $service->status = $request->input('status');
+         $service->title = $request->input('title');
+         $service->slug = Str::slug($request->input('slug'));
+         $service->short_description = $request->input('short_description');
+         $service->content = $request->input('content');
+         $service->status = $request->input('status');
 
            // Update Image
            if ($request->hasFile('image') && $request->file('image')->isValid()) {
 
             // delete old image
             if ($service->image) {
-                File::delete(public_path('uploads/services/' . $service->image));
+                File::delete(public_path('uploads/services' . $service->image));
             }
 
             $image = $request->file('image');
@@ -176,9 +176,9 @@ class ServiceController extends Controller
          $service->save();
 
           return response()->json([
-        'status' => 200,
-        'message' => 'Service Updated Successfully',
-         ]);
+          'status' => 200,
+          'message' => 'Service Updated Successfully',
+           ]);
  }
 
      // Remove the specified resource from storage.
