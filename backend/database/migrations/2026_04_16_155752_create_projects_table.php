@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->text('construction_type')->nullable();
             $table->text('sector')->nullable();
-             $table->text('location')->nullable();
+            $table->text('location')->nullable();
             $table->string('image')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();

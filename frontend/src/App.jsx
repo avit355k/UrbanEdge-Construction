@@ -19,6 +19,9 @@ import AdminLayout from './Component/Admin/AdminLayout.jsx';
 import CreateService from './Component/Admin/Services/CreateService.jsx';
 import EditService from './Component/Admin/Services/EditService.jsx';
 import ServiceDetails from './Pages/ServicePage/ServiceDetails.jsx';
+import ShowProject from './Component/Admin/Projects/ShowProject.jsx';
+import CreateProject from './Component/Admin/Projects/CreateProject';
+import EditProject from './Component/Admin/Projects/EditProject.jsx';
 
 
 function App() {
@@ -48,6 +51,9 @@ function App() {
             <Route path="services" element={<ShowService />} />
             <Route path="services/create" element={<CreateService />} />
             <Route path='services/edit/:id' element={<EditService />} />
+            <Route path='projects' element={<ShowProject />} />
+            <Route path='projects/create' element={<CreateProject />} />
+            <Route path='projects/edit/:id' element={<EditProject />} />
           </Route>
           
         </Routes>
