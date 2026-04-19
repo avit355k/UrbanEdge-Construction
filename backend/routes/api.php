@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
+use App\Http\Controllers\front\ProjectController as FrontProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,9 @@ Route::post('authenticate', [AuthenticationController::class, 'authenticate']);
 Route::get('getservices',[FrontServiceController::class,'index']);
 Route::get('getlatestservice',[FrontServiceController::class,'latest']);
 Route::get('service-details/{id}',[FrontServiceController::class,'show']);
+Route::get('getprojects',[FrontProjectController::class,'index']);
+Route::get('getlatestproject',[FrontProjectController::class,'latest']);
+Route::get('project-details/{id}',[FrontProjectController::class,'show']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

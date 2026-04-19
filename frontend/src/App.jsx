@@ -22,6 +22,7 @@ import ServiceDetails from './Pages/ServicePage/ServiceDetails.jsx';
 import ShowProject from './Component/Admin/Projects/ShowProject.jsx';
 import CreateProject from './Component/Admin/Projects/CreateProject';
 import EditProject from './Component/Admin/Projects/EditProject.jsx';
+import ProjectDetails from './Pages/ProjectPage/ProjectDetails.jsx';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/services" exact={true} element={<ServicePage />} />
           <Route path="/service/:id" exact={true} element={<ServiceDetails />} />
           <Route path="/projects" exact={true} element={<ProjectPage />} />
+          <Route path="/project/:id" exact={true} element={<ProjectDetails />} />
           <Route path="/blogs" exact={true} element={<BlogPage />} />
           <Route path="/contacts" exact={true} element={<Contact />} />
           <Route path="/admin/login" exact={true} element={<Login />} />

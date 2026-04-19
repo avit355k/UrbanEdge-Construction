@@ -3,24 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { API ,imageURL} from '../../Api/Api';
 import { useNavigate } from 'react-router-dom';
 
-// const services = [
-//   {
-//     title: 'Building Construction',
-//     description: 'Building construction is a broad and essential sector within the construction industry that focuses on the creation of structures designed for human occupancy and use.',
-//     img: "/images/construction4.jpg"
-//   },
-//   {
-//     title: 'Residential Construction',
-//     description: 'Residential construction is a fundamental sector within the construction industry, dedicated to creating living spaces that meet the diverse needs of individuals and families.',
-//     img: "/images/construction7.jpg"
-//   },
-//   {
-//     title: 'Corporate Construction',
-//     description: 'Corporate construction is a specialized sector within the construction industry that focuses on developing and constructing buildings and facilities designed for business operations.',
-//     img: "/images/engineer-4925135_1280.jpg"
-//   }
-// ];
-
 const Services = () => {
   const [services, setServices] = useState([]);
   const navigate = useNavigate();

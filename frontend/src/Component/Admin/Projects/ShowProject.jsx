@@ -29,6 +29,24 @@ const ShowProject = () => {
         fetchProjects();
     }, []);
 
+    //delete project
+    const deleteProject = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this service?")) return;
+
+        try {
+            await axios.delete(`${API}/projects/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token()}`,
+                },
+            });
+            toast.success("Project deleted successfully!");
+            fetchProjects();
+        } catch (error) {
+            console.error("Error deleting project:", error);
+            toast.error("Error deleting project");
+        }
+    };
+
     return (
         <div className='p-6'>
             {/* Header */}
@@ -71,7 +89,8 @@ const ShowProject = () => {
                                         {project.status ? "Active" : "Inactive"}
                                     </td>
                                     <td className="p-3 space-x-2">
-                                        <button onClick={() => navigate(`/admin/projects/${project.id}/edit`)}
+
+                                        <button onClick={() => navigate(`/admin/projects/edit/${project.id}`)}
                                             className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-3 py-1 rounded cursor-pointer">
                                             EDIT
                                         </button>
@@ -80,6 +99,7 @@ const ShowProject = () => {
                                             className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-3 py-1 rounded cursor-pointer">
                                             DELETE
                                         </button>
+
                                     </td>
                                 </tr>
                             ))
