@@ -3,31 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { API, projectImageURL } from '../../Api/Api';
 import { useNavigate } from 'react-router-dom';
 
-
-// const projects = [
-//   {
-//     title: 'Heavy Civil Infrastructure',
-//     description: 'Our expertise is in the design, engineering and construction of projects in segments crucial to the economy like Metros, Nuclear, Hydel, Ports, Special Bridges, Tunnels and Defence.',
-//     img: "/images/project1.webp"
-//   }, 
-
-//   {
-//     title: 'Hydrocarbon Offshore',
-//     description: 'Delivering world-class EPCIC solutions across the offshore energy value chain — from concept to commissioning. With advanced engineering, modern fabrication facilities, and a versatile marine fleet',
-//     img: "/images/project2.webp"
-//   },
-//   {
-//     title: 'Water & Effluent Treatment',
-//     description: 'Water is life. The growing pressure on water resources due to rise in population,climate change, pollution and other challenges have had a major impact on our social, economic and environmental wellbeing.',
-//     img: "/images/project3.webp"
-//   },
-//   {
-//     title: 'Offshore Wind',
-//     description: 'Offshore Wind delivers end-to-end solutions that harness wind power efficiently and sustainably. Explore our expertise across development, fabrication, installation, and maintenance to power a greener tomorrow.',
-//     img: "/images/project4.webp"
-//   }
-// ];
-
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const navigate = useNavigate();

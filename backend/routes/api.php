@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\admin\ArticleController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\MemberController;
 use App\Http\Controllers\admin\ProjectController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
+use App\Http\Controllers\front\ArticleController as FrontArticleController;
+use App\Http\Controllers\front\MemberController as FrontMemberController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +18,17 @@ Route::post('authenticate', [AuthenticationController::class, 'authenticate']);
 Route::get('getservices',[FrontServiceController::class,'index']);
 Route::get('getlatestservice',[FrontServiceController::class,'latest']);
 Route::get('service-details/{id}',[FrontServiceController::class,'show']);
+
 Route::get('getprojects',[FrontProjectController::class,'index']);
 Route::get('getlatestproject',[FrontProjectController::class,'latest']);
 Route::get('project-details/{id}',[FrontProjectController::class,'show']);
+
+Route::get('getarticles',[FrontArticleController::class,'index']);
+Route::get('getlatestarticle',[FrontArticleController::class,'latest']);
+Route::get('article-details/{id}',[FrontArticleController::class,'show']);
+
+Route::get('getmembers',[FrontMemberController::class,'index']);
+Route::get('member-details/{id}',[FrontMemberController::class,'show']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -37,6 +49,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('projects/{id}',[ProjectController::class,'update']);
     Route::get('projects/{id}',[ProjectController::class,'show']);
     Route::delete('projects/{id}',[ProjectController::class,'destroy']);
+
+    //article routes
+    Route::post('articles',[ArticleController::class,'store']);
+    Route::get('articles',[ArticleController::class,'index']);
+    Route::put('articles/{id}',[ArticleController::class,'update']);
+    Route::get('articles/{id}',[ArticleController::class,'show']);
+    Route::delete('articles/{id}',[ArticleController::class,'destroy']);
+
+    //member routes
+    Route::post('members',[MemberController::class,'store']);
+    Route::get('members',[MemberController::class,'index']);
+    Route::put('members/{id}',[MemberController::class,'update']);
+    Route::get('members/{id}',[MemberController::class,'show']);
+    Route::delete('members/{id}',[MemberController::class,'destroy']);
 
     //temp image upload route
     Route::post('temp-images', [TempImageController::class, 'store']);
