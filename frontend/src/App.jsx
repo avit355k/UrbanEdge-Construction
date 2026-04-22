@@ -23,6 +23,10 @@ import ShowProject from './Component/Admin/Projects/ShowProject.jsx';
 import CreateProject from './Component/Admin/Projects/CreateProject';
 import EditProject from './Component/Admin/Projects/EditProject.jsx';
 import ProjectDetails from './Pages/ProjectPage/ProjectDetails.jsx';
+import ShowArticle from './Component/Admin/Article/ShowArticle.jsx';
+import CreateArticle from './Component/Admin/Article/CreateArticle.jsx';
+import EditArticle from './Component/Admin/Article/EditArticle.jsx';
+
 
 
 function App() {
@@ -56,6 +60,9 @@ function App() {
             <Route path='projects' element={<ShowProject />} />
             <Route path='projects/create' element={<CreateProject />} />
             <Route path='projects/edit/:id' element={<EditProject />} />
+            <Route path='articles' element={<ShowArticle />} />
+            <Route path='articles/create' element={<CreateArticle />} />
+            <Route path='articles/edit/:id' element={<EditArticle />} />
           </Route>
           
         </Routes>

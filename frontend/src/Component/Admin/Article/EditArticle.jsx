@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { API, token, articleImageURL } from "../../../Api/Api";
 
-const EditProject = () => {
+const EditArticle = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const editor = useRef(null);
@@ -14,11 +14,8 @@ const EditProject = () => {
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
-    short_description: "",
     content: "",
-    construction_type: "",
-    sector: "",
-    location: "",
+    author: "",
     image: null,
     status: "1",
   });
@@ -33,35 +30,32 @@ const EditProject = () => {
       .replace(/-+/g, "-");
   };
 
-  //fetch project by id
-  const fetchProject = async () => {
+  //fetch article by id
+  const fetchArticle = async () => {
     try {
-      const res = await axios.get(`${API}/projects/${id}`, {
+      const res = await axios.get(`${API}/articles/${id}`, {
         headers: {
           Authorization: `Bearer ${token()}`,
         },
       });
-      const project = res.data.data || res.data;
+      const article = res.data.data || res.data;
       setFormData({
-        title: project.title || "",
-        slug: project.slug || "",
-        short_description: project.short_description || "",
-        content: project.content || "",
-        construction_type: project.construction_type || "",
-        sector: project.sector || "",
-        location: project.location || "",
+        title: article.title || "",
+        slug: article.slug || "",
+        content: article.content || "",
+        author: article.author || "",
         image: null,
 
       });
-      setOldImage(project.image || null);
+      setOldImage(article.image || null);
     } catch (error) {
-      console.error("Error fetching project:", error);
-      toast.error("Error fetching project");
+      console.error("Error fetching article:", error);
+      toast.error("Error fetching article");
     }
   };
   // Call on component mount
   useEffect(() => {
-    fetchProject();
+    fetchArticle();
   }, [id]);
 
   // Handle input change
@@ -86,7 +80,8 @@ const EditProject = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
-  //update project
+
+  //update article
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -99,13 +94,13 @@ const EditProject = () => {
     });
 
     try {
-      await axios.post(`${API}/projects/${id}?_method=PUT`, data, {
+      await axios.post(`${API}/articles/${id}?_method=PUT`, data, {
         headers: {
           Authorization: `Bearer ${token()}`,
         },
       });
-      toast.success("Project Updated Successfully!");
-      navigate("/admin/projects");
+      toast.success("Article Updated Successfully!");
+      navigate("/admin/articles");
     } catch (error) {
       console.error(error);
       console.log(error.response);
@@ -126,18 +121,19 @@ const EditProject = () => {
       <div className="flex justify-between items-center mb-4">
         <div className="breadcrumbs text-sm font-bold">
           <ul>
-            <li><Link to="/admin/projects">Projects</Link></li>
+            <li><Link to="/admin/articles">Articles</Link></li>
             <li>Edit</li>
           </ul>
         </div>
         <button className="bg-pink-500 hover:bg-yellow-400 text-white font-bold px-4 py-2 rounded cursor-pointer"
-          onClick={() => navigate("/admin/projects/")}>
+          onClick={() => navigate("/admin/articles/")}>
           Back
         </button>
       </div>
 
       {/* Divider */}
       <hr className="border-gray-300 mb-4" />
+
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Title */}
@@ -169,22 +165,20 @@ const EditProject = () => {
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none"
           />
         </div>
-
-        {/* Short Description */}
+        {/* Author */}
         <div>
           <label className="block mb-1 font-medium text-gray-700">
-            Short Description
+            Author
           </label>
           <input
             type="text"
-            name="short_description"
-            placeholder="Short Description"
-            value={formData.short_description}
+            name="author"
+            placeholder="Author"
+            value={formData.author}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none"
           />
         </div>
-
         {/* Content */}
         <div>
           <label className="block mb-2 font-medium text-gray-700">
@@ -205,58 +199,7 @@ const EditProject = () => {
             />
           </div>
         </div>
-        {/* Construction Type */}
-        <div>
-          <label className="block mb-1 font-medium text-gray-700">
-            Construction Type
-          </label>
-          <select
-            name="construction_type"
-            value={formData.construction_type}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none"
-          >
-            <option value="">Select Construction Type</option>
-            <option value="residential">Residential</option>
-            <option value="commercial">Commercial</option>
-            <option value="industrial">Industrial</option>
-            <option value="infrastructure">Infrastructure</option>
-          </select>
-        </div>
-        {/* Sector */}
-        <div>
-          <label className="block mb-1 font-medium text-gray-700">
-            Sector
-          </label>
-          <select
-            name="sector"
-            value={formData.sector}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none"
-          >
-            <option value="">Select Sector</option>
-            <option value="corporate">Corporate</option>
-            <option value="health">Health</option>
-            <option value="education">Education</option>
-            <option value="government">Government</option>
-          </select>
-        </div>
-        {/* Location */}
-        <div>
-          <label className="block mb-1 font-medium text-gray-700">
-            Location
-          </label>
-          <input
-            type="text"
-            name="location"
-            placeholder="Location"
-            value={formData.location}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-pink-400 outline-none"
-          />
-        </div>
-
-        {/*image */}
+         {/*image */}
         <div>
           <label className="block mb-1 font-medium text-gray-700">
             Image
@@ -282,7 +225,7 @@ const EditProject = () => {
           {/* OLD IMAGE */}
           {oldImage && !formData.image && (
             <img
-              src={`${projectImageURL}${oldImage}`}
+              src={`${articleImageURL}${oldImage}`}
               alt="old"
               className="h-24 mt-2 rounded-md"
             />
@@ -314,12 +257,12 @@ const EditProject = () => {
           </select>
         </div>
 
-        <div>
+         <div>
           <button
             type="submit"
             className="bg-pink-500 hover:bg-yellow-400 transition text-white px-5 py-2 rounded-md font-semibold cursor-pointer"
           >
-            Update Service
+            Update Articles
           </button>
         </div>
 
@@ -328,4 +271,4 @@ const EditProject = () => {
   )
 }
 
-export default EditProject;
+export default EditArticle

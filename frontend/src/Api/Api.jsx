@@ -5,6 +5,8 @@ export const imageURL = "http://localhost:8000/uploads/services/";
 
 export const projectImageURL = "http://localhost:8000/uploads/projects/";
 
+export const articleImageURL = "http://localhost:8000/uploads/Articles/";
+
 export const token = () => {
   const userInfo = localStorage.getItem("userInfo");
   if (!userInfo) return null;
