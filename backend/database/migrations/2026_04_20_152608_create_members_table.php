@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('job-title');
-            $table->string('linkdin')->nullable();
+            $table->string('job_title');
+            $table->string('linkedin')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

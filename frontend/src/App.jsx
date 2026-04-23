@@ -26,6 +26,9 @@ import ProjectDetails from './Pages/ProjectPage/ProjectDetails.jsx';
 import ShowArticle from './Component/Admin/Article/ShowArticle.jsx';
 import CreateArticle from './Component/Admin/Article/CreateArticle.jsx';
 import EditArticle from './Component/Admin/Article/EditArticle.jsx';
+import ShowMember from './Component/Admin/Member/ShowMember.jsx';
+import AddMember from './Component/Admin/Member/AddMember.jsx';
+import EditMember from './Component/Admin/Member/EditMember.jsx';
 
 
 
@@ -63,6 +66,9 @@ function App() {
             <Route path='articles' element={<ShowArticle />} />
             <Route path='articles/create' element={<CreateArticle />} />
             <Route path='articles/edit/:id' element={<EditArticle />} />
+            <Route path='members' element={<ShowMember />} />
+            <Route path='members/create' element={<AddMember />} />
+            <Route path='members/edit/:id' element={<EditMember />} />
           </Route>
           
         </Routes>

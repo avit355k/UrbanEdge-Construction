@@ -28,8 +28,8 @@ class MemberController extends Controller
     {
       $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'job-title' => 'required',
-            'linkdin' => 'nullable|url',
+            'job_title' => 'required',
+            'linkedin' => 'nullable|url',
             'image'=>'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:5120',  
         ]);
 
@@ -41,8 +41,8 @@ class MemberController extends Controller
 
         $model = new member();
         $model->name = $request->input('name');
-        $model->job_title = $request->input('job-title');
-        $model->linkdin = $request->input('linkdin');
+        $model->job_title = $request->input('job_title');
+        $model->linkedin = $request->input('linkedin');
 
         $model->save();
 
@@ -111,8 +111,8 @@ class MemberController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'job-title' => 'required',
-            'linkdin' => 'nullable|url',
+            'job_title' => 'required',
+            'linkedin' => 'nullable|url',
             'image'=>'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:5120',  
         ]);
 
@@ -124,8 +124,8 @@ class MemberController extends Controller
 
         
         $Members->name = $request->input('name');
-        $Members->job_title = $request->input('job-title');
-        $Members->linkdin = $request->input('linkdin');
+        $Members->job_title = $request->input('job_title');
+        $Members->linkedin = $request->input('linkedin');
 
               //update image
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
