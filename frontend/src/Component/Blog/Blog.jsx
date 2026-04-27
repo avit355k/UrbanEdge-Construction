@@ -1,25 +1,29 @@
-import React from 'react'
-
-const blogs = [
-  {
-    title: 'Building X',
-    description: 'Building X is a revolutionary construction project that combines cutting-edge technology, sustainable design, and innovative engineering to create a landmark structure that redefines urban living and sets new standards for architectural excellence.',
-    img: "/images/blog1.avif"
-  },
-  {
-    title: 'Engineering a Sustainable Future',
-    description: 'Sustainability is embedded in our vision, culture, strategy, and business processes. We are committed to sustainable growth, and integrate Environment, Social and Governance (ESG) principles in all aspects of our business.',
-    img: "/images/blog2.webp"
-  },
-  {
-    title: 'Electronics X',
-    description: 'Electronics X is a comprehensive platform that provides end-to-end solutions for the electronics industry. From design and prototyping to manufacturing and supply chain management, Electronics X offers a seamless experience for businesses looking to bring their electronic products to market efficiently and effectively.',
-    img: "/images/blog3.avif"
-  },
-
-];
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { API, articleImageURL } from '../../Api/Api';
+import { useNavigate } from 'react-router-dom';
 
 const Blog = () => {
+  const [blogs, setBlogs] = useState([]);
+  const navigate = useNavigate();
+
+
+  //fetch latest blogs
+  const fetchLatestBlogs = async () => {
+    try {
+      const res = await axios.get(`${API}/getlatestarticle`);
+      if (res.data && res.data.data) {
+        setBlogs(res.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestBlogs();
+  }, []);
+
   return (
     <div className='bg-gray-100 py-10 px-8'>
       <h2 className='text-2xl text-pink-500 font-bold tracking-wide text-center mb-2'>Blog & News</h2>
@@ -35,11 +39,11 @@ const Blog = () => {
         {blogs.map((blog, index) => (
           <div key={index} className='relative h-90 rounded-3xl overflow-hidden group cursor-pointer'>
             <img
-              src={blog.img}
+              src={`${articleImageURL}${blog.image}`}
               alt={blog.title}
               className="w-full h-full object-cover"
             />
-           
+
 
             <div
               className="absolute bottom-0 left-0 w-full p-6 text-white
@@ -56,7 +60,7 @@ const Blog = () => {
               {blog.description && (
                 <div className="mt-4 opacity-0 group-hover:opacity-100 transition duration-500">
                   <p className="text-normal text-gray-200">
-                    {blog.description}
+                    {blog.slug}
                   </p>
 
                   <button className="mt-4 bg-pink-500 px-4 py-2 rounded-md text-sm font-semibold hover:bg-yellow-400 cursor-pointer">

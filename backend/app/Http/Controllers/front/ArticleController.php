@@ -11,7 +11,7 @@ class ArticleController extends Controller
     //all active articles
     public function index()
     {
-        $articles = Article::where('status', 'active')->get();
+        $articles = Article::where('status', 1)->orderBy('created_at', 'desc')->get();
         return response()->json([
             'status'=>200,
             'data'=>$articles,
@@ -22,8 +22,8 @@ class ArticleController extends Controller
     //latest active articles
     public function latest()
     {
-        $articles = Article::where('status', 'active')
-        ->orderBy('created_at', 'desc')
+        $articles = Article::where('status', 1)
+        ->orderBy('created_at')
         ->take(4)
         ->get();
         

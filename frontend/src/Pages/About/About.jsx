@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Aboutus from '../../Component/Home/About';
 import Testimonials from '../../Component/Testimonials/Testimonials';
+import { API, teamImageURL } from '../../Api/Api';
+import axios from 'axios';
 
 const AboutPage = () => {
+  const [teamMembers, setTeamMembers] = useState([]);
+
+  // Fetch team members from the API
+  const fetchTeamMembers = async () => {
+    try {
+      const res = await axios.get(`${API}/getmembers`);
+      setTeamMembers(res.data.data || res.data);
+    } catch (error) {
+      console.error('Error fetching team members:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchTeamMembers();
+  }, []);
+
   return (
     <>
       <section className='relative h-100 w-full overflow-hidden'>
@@ -50,34 +68,18 @@ const AboutPage = () => {
         </p>
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-8'>
-          <div className='relative  rounded-3xl overflow-hidden border border-gray-200 p-6 text-start shadow-lg'>
-            <img
-              src='/images/client1.jpg'
-              alt="John Doe"
-              className='w-full h-64 object-cover rounded-3xl'
-            />
-            <h3 className='text-xl font-bold mt-4'>Mark Doe</h3>
-            <p className='text-gray-600 text-normal mt-2'>Senior Developer</p>
-          </div>
+          {teamMembers.map((member, index) => (
+            <div key={index} className='relative  rounded-3xl overflow-hidden border border-gray-200 p-6 text-start shadow-lg'>
+              <img
+                src={`${teamImageURL}${member.image}`}
+                alt={member.name}
+                className='w-full h-64 object-cover rounded-3xl'
+              />
+              <h3 className='text-xl font-bold mt-4'>{member.name}</h3>
+              <p className='text-gray-600 text-normal mt-2'>{member.position}</p>
+            </div>
+          ))};
 
-           <div className='relative  rounded-3xl overflow-hidden border border-gray-200 p-6 text-start shadow-lg'>
-            <img
-              src='/images/client2.jpg'
-              alt="John Doe"
-              className='w-full h-64 object-cover rounded-3xl'
-            />
-            <h3 className='text-xl font-bold mt-4'>John Doe</h3>
-            <p className='text-gray-600 text-normal mt-2'>Manager</p>
-          </div>
-           <div className='relative  rounded-3xl overflow-hidden border border-gray-200 p-6 text-start shadow-lg'>
-            <img
-              src='/images/client3.jpg'
-              alt="John Doe"
-              className='w-full h-64 object-cover rounded-3xl'
-            />
-            <h3 className='text-xl font-bold mt-4'>Rani Singh</h3>
-            <p className='text-gray-600 text-normal mt-2'>Team Lead</p>
-          </div>
         </div>
       </section>
 

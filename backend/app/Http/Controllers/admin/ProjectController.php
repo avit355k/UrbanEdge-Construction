@@ -136,38 +136,35 @@ class ProjectController extends Controller
         $project->construction_type = $request->input('construction_type');
         $project->sector = $request->input('sector');
         $project->location = $request->input('location');
-        $project->status = $request->input('status');
+        $project->status = $request->input('status', 1);
 
            //update image
-           if ($request->hasFile('image') && $request->file('image')->isValid()) {
+          if ($request->hasFile('image') && $request->file('image')->isValid()) {
 
-            // Delete old image if exists
-            if ($project->image) {
-                 File::delete(public_path('uploads/projects' . $project->image));
-            }
+            // Delete old image safely
+            if ($project->image && File::exists(public_path('uploads/projects/' . $project->image))) {
+            File::delete(public_path('uploads/projects/' . $project->image));
+          }
 
-            $image = $request->file('image');
+        $image = $request->file('image');
 
-            $filename = time() . '_' . $project->id . '.' . $image->getClientOriginalExtension();
+        $filename = time() . '_' . $project->id . '.' . $image->getClientOriginalExtension();
 
-            $destination = public_path('uploads/projects');
+        $destination = public_path('uploads/projects');
 
-            // Create the destination directory if it doesn't exist
-            if (!File::exists($destination)) {
-                File::makeDirectory($destination, 0755, true);
-            }
+        if (!File::exists($destination)) {
+            File::makeDirectory($destination, 0755, true);
+        }
 
-            $manager = ImageManager::usingDriver(Driver::class);
+        $manager = ImageManager::usingDriver(Driver::class);
 
-            // decode image
-            $img = $manager->decode($image->getPathname());
+        $img = $manager->decode($image->getPathname());
+        $img->scaleDown(1200);
+        $img->save($destination . '/' . $filename);
 
-            // resize + compress
-            $img->scaleDown(1200); // max width
-            $img->save($destination . '/' . $filename);
+        $project->image = $filename;
+       }
 
-            $project->image = $filename;
-           }
     
 
         $project->save();

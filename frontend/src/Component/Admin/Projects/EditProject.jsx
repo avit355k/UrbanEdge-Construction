@@ -3,7 +3,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { API, token, articleImageURL } from "../../../Api/Api";
+import { API, token, projectImageURL } from "../../../Api/Api";
 
 const EditProject = () => {
   const { id } = useParams();
@@ -99,11 +99,15 @@ const EditProject = () => {
     });
 
     try {
-      await axios.post(`${API}/projects/${id}?_method=PUT`, data, {
+      data.append("_method", "PUT");
+
+      await axios.post(`${API}/projects/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token()}`,
+          "Content-Type": "multipart/form-data",
         },
       });
+      
       toast.success("Project Updated Successfully!");
       navigate("/admin/projects");
     } catch (error) {

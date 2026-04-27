@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\ProjectController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\front\ContactController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
 use App\Http\Controllers\front\ArticleController as FrontArticleController;
@@ -29,6 +30,8 @@ Route::get('article-details/{id}',[FrontArticleController::class,'show']);
 
 Route::get('getmembers',[FrontMemberController::class,'index']);
 Route::get('member-details/{id}',[FrontMemberController::class,'show']);
+
+Route::post('/contact', [ContactController::class, 'index']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
