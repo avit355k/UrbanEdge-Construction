@@ -1,6 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import {API} from "../../Api/Api";
+import { toast } from "react-toastify";
 
 const Contact = () => {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post(`${API}/contact`, formData);
+
+      toast.success(res.data.message);
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: ""
+      });
+
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Error sending message");
+    }
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -50,12 +90,15 @@ const Contact = () => {
 
           {/* Right Form */}
           <div className="md:col-span-2 bg-white rounded-3xl shadow-lg p-8">
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
 
               <div>
                 <label className="block mb-1 font-medium">Name</label>
                 <input
                   type="text"
+                  name='name'
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Enter Name"
                   className="w-full border rounded-lg px-4 py-3 outline-none"
                 />
@@ -65,6 +108,9 @@ const Contact = () => {
                 <label className="block mb-1 font-medium">Email</label>
                 <input
                   type="email"
+                  name='email'
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="Enter Email"
                   className="w-full border rounded-lg px-4 py-3 outline-none"
                 />
@@ -74,6 +120,9 @@ const Contact = () => {
                 <label className="block mb-1 font-medium">Phone</label>
                 <input
                   type="text"
+                  name='phone'
+                  value={formData.phone}
+                  onChange={handleChange}
                   placeholder="Phone No."
                   className="w-full border rounded-lg px-4 py-3 outline-none"
                 />
@@ -83,6 +132,9 @@ const Contact = () => {
                 <label className="block mb-1 font-medium">Subject</label>
                 <input
                   type="text"
+                  name='subject'
+                  value={formData.subject}
+                  onChange={handleChange}
                   placeholder="Subject"
                   className="w-full border rounded-lg px-4 py-3 outline-none"
                 />
@@ -92,13 +144,19 @@ const Contact = () => {
                 <label className="block mb-1 font-medium">Message</label>
                 <textarea
                   rows="5"
+                  name='message'
+                  value={formData.message}
+                  onChange={handleChange}
                   placeholder="Message"
                   className="w-full border rounded-lg px-4 py-3 outline-none"
                 ></textarea>
               </div>
 
               <div className="md:col-span-2">
-                <button className="bg-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-600">
+                <button 
+                  type="submit"
+                  className="bg-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-600 cursor-pointer"
+                >
                   SUBMIT
                 </button>
               </div>

@@ -14,32 +14,18 @@ class ContactEmail extends Mailable
 {
     use Queueable, SerializesModels;
     
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+    public $mailData;
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function __construct($mailData)
     {
-        return new Envelope(
-            subject: 'Contact Email',
-        );
+        $this->mailData = $mailData;
     }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
+    
+    public function build()
     {
-        return new Content(
-            view: 'view.name',
-        );
+        return $this->subject('New Contact Message')
+            ->view('emails.contact')
+            ->with('data', $this->mailData);
     }
 
     /**

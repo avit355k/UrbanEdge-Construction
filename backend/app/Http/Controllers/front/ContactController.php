@@ -28,21 +28,19 @@ class ContactController extends Controller
             'name', 'email', 'phone', 'subject', 'message'
         ]);
 
-        Mail::raw(
-            "Name: {$mailData['name']}\n
-             Email: {$mailData['email']}\n
-             Phone: {$mailData['phone']}\n
-             Subject: {$mailData['subject']}\n
-            Message: {$mailData['message']}",
-            function ($message) use ($mailData) {
-                $message->to('urbanedge@admin.com')
-                        ->subject('New Contact Message');
-             }
-            );
+        try {
+        Mail::to('urbanedge@admin.com')->send(new ContactEmail($mailData));
 
         return response()->json([
             'status' => true,
             'message' => 'Message sent successfully',
         ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => $e->getMessage(),
+        ], 500);
+    }
     }
 }
